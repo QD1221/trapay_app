@@ -1,0 +1,6 @@
+{
+  "helloWorld": "Chào thế giới!",
+  "@helloWorld": {
+    "description": "Chào mừng các bạn nhỏ"
+  }
+}
