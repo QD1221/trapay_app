@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:trapay_app/src/data/fake_chat.dart';
+import 'package:trapay_app/src/model/chat.dart';
 
 class ChattingPage extends StatefulWidget {
   const ChattingPage({Key? key}) : super(key: key);
@@ -84,9 +86,83 @@ class _ChattingPageState extends State<ChattingPage> {
           ),
           Expanded(
             child: ListView.separated(
-              itemCount: 10,
+              itemCount: chatItems.length,
               itemBuilder: (context, index) {
-                return Row();
+                Chat chatData = chatItems[index];
+                return Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Center(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 8),
+                          child: CircleAvatar(
+                            backgroundImage: NetworkImage(
+                              chatData.avatarImg ??
+                                  '${chatData.name?.substring(0, 2)}',
+                            ),
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                Text(
+                                  '${chatData.name}',
+                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                ),
+                                SizedBox(width: 8),
+                                (chatData.newMsgCount ?? 0) > 0
+                                    ? CircleAvatar(
+                                        radius: 8,
+                                        backgroundColor: Colors.red,
+                                        foregroundColor: Colors.white,
+                                        child: Center(
+                                          child: Text(
+                                            '${chatData.newMsgCount}',
+                                            style: TextStyle(fontSize: 10),
+                                          ),
+                                        ),
+                                      )
+                                    : Container()
+                              ],
+                            ),
+                            SizedBox(height: 4),
+                            Row(
+                              children: [
+                                Text(
+                                  '${chatData.message}',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.normal,
+                                    color: Colors.grey,
+                                  ),
+                                ),
+                                SizedBox(width: 8),
+                                (chatData.isRead ?? false)
+                                    ? Icon(
+                                        Icons.check,
+                                        color: Colors.green,
+                                        size: 12,
+                                      )
+                                    : Container()
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                      Spacer(),
+                      Align(
+                        alignment: Alignment.topRight,
+                        child: Text('12 : 30'),
+                      )
+                    ],
+                  ),
+                );
               },
               separatorBuilder: (context, index) => Divider(),
             ),
